@@ -1,220 +1,109 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '../../contexts/AuthContext';
-import StatCard from '../../components/dashboard/StatCard';
-import DashboardSection from '../../components/dashboard/DashboardSection';
-import { Users, BookMarked, FileText, Award, BookOpen } from 'lucide-react';
+import { Users, Award, FileText, BookOpen } from 'lucide-react';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 const ProdiDashboard: React.FC = () => {
-  const { user } = useAuth();
+  const activeStudents = 1386;
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
+  const barData = {
+    labels: ['2021', '2022', '2023', '2024'],
+    datasets: [
+      {
+        label: 'Jumlah Mahasiswa',
+        data: [400, 360, 310, 280],
+        backgroundColor: '#0ea5e9',
+        borderRadius: 8,
+      }
+    ],
+  };
+
+  const barOptions = {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 100 },
       }
     }
   };
-  
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.4
-      }
-    }
-  };
+
+  const stats = [
+    { icon: <Award className="text-blue-600" />, title: 'Prestasi Akademik', value: 45 },
+    { icon: <FileText className="text-purple-600" />, title: 'Non Akademik / Lomba', value: 35 },
+    { icon: <BookOpen className="text-green-600" />, title: 'Proyek / PKM', value: 50 },
+  ];
+
+  const students = [
+    { name: 'Veni Iqbalina', nim: '2200001237', email: 'veni10@gmail.com', major: 'Sistem Informasi', status: 'Active' },
+    { name: 'Ova Benriato', nim: '2200001579', email: 'ova09@gmail.com', major: 'Sistem Informasi', status: 'Active' },
+    { name: 'Alex Sapta', nim: '2200001808', email: 'alex07@gmail.com', major: 'Manajemen', status: 'Active' },
+  ];
 
   return (
-    <div className="h-full">
-      {/* Welcome Banner */}
-      <motion.div
-        className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl p-6 text-white mb-6"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-2xl font-bold mb-2">Selamat Datang di Sistem E-Portfolio</h1>
-        <p className="opacity-90">
-          Halo, {user?.name || 'Admin Program Studi'}! Pantau kemajuan program studi dan kelola kurikulum dari dasbor ini.
-        </p>
-      </motion.div>
-      
-      {/* Stats Cards */}
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.div variants={itemVariants}>
-          <StatCard
-            title="Total Students"
-            value="250"
-            icon={<Users className="text-blue-500" />}
-            change="+15"
-            trend="up"
-          />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <StatCard
-            title="Active Courses"
-            value="18"
-            icon={<BookOpen className="text-green-500" />}
-            change="+2"
-            trend="up"
-          />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <StatCard
-            title="Faculty Members"
-            value="25"
-            icon={<Users className="text-purple-500" />}
-            change="+3"
-            trend="up"
-          />
-        </motion.div>
-        <motion.div variants={itemVariants}>
-          <StatCard
-            title="Graduation Rate"
-            value="92%"
-            icon={<Award className="text-amber-500" />}
-            change="+4%"
-            trend="up"
-          />
-        </motion.div>
-      </motion.div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Student Performance Overview */}
-        <motion.div
-          className="lg:col-span-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <DashboardSection title="Student Performance Overview" icon={<Users size={18} />}>
-            <div className="space-y-5">
-              {[
-                { year: '1st Year', avgGPA: 3.4, retention: '95%', passingRate: '90%' },
-                { year: '2nd Year', avgGPA: 3.5, retention: '92%', passingRate: '88%' },
-                { year: '3rd Year', avgGPA: 3.6, retention: '90%', passingRate: '92%' },
-                { year: '4th Year', avgGPA: 3.7, retention: '88%', passingRate: '94%' },
-              ].map((yearData, index) => (
-                <div key={index}>
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium text-gray-800">{yearData.year} Students</h3>
-                    <div className="text-sm text-gray-500">Avg. GPA: <span className="font-medium text-gray-800">{yearData.avgGPA}</span></div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">Retention Rate</span>
-                        <span className="font-medium">{yearData.retention}</span>
-                      </div>
-                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-blue-500"
-                          style={{ width: yearData.retention }}
-                        ></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">Passing Rate</span>
-                        <span className="font-medium">{yearData.passingRate}</span>
-                      </div>
-                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-green-500"
-                          style={{ width: yearData.passingRate }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </DashboardSection>
-        </motion.div>
-        
-        {/* Department Updates */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <DashboardSection title="Recent Updates" icon={<FileText size={18} />}>
-            <div className="space-y-3">
-              {[
-                { type: 'curriculum', title: 'Curriculum Update Approved', date: '2 days ago' },
-                { type: 'faculty', title: 'New Faculty Member Joined', date: '1 week ago' },
-                { type: 'report', title: 'Annual Review Completed', date: '2 weeks ago' },
-                { type: 'event', title: 'Academic Calendar Updated', date: '3 weeks ago' },
-              ].map((update, index) => (
-                <div key={index} className="p-3 border-l-4 border-purple-500 bg-purple-50 rounded-r-lg">
-                  <p className="font-medium text-gray-800">{update.title}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{update.date}</p>
-                </div>
-              ))}
-              <button className="text-sm text-purple-600 hover:text-purple-800 mt-2">
-                View all updates
-              </button>
-            </div>
-          </DashboardSection>
-        </motion.div>
-      </div>
-      
-      {/* Curriculum Management */}
-      <motion.div
-        className="mt-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        <DashboardSection title="Curriculum Management" icon={<BookMarked size={18} />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { name: 'Web Development Track', status: 'Active', lastUpdated: 'Oct 2025', courses: 8 },
-              { name: 'Mobile Development Track', status: 'Review', lastUpdated: 'Sep 2025', courses: 6 },
-              { name: 'Data Science Specialization', status: 'Active', lastUpdated: 'Aug 2025', courses: 10 },
-              { name: 'AI & Machine Learning', status: 'Draft', lastUpdated: 'Oct 2025', courses: 7 },
-              { name: 'Cybersecurity Program', status: 'Active', lastUpdated: 'Jul 2025', courses: 9 },
-              { name: 'IoT Specialization', status: 'Planned', lastUpdated: 'N/A', courses: 5 },
-            ].map((curriculum, index) => (
-              <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-                <h4 className="font-medium text-gray-800">{curriculum.name}</h4>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className={`inline-block h-2 w-2 rounded-full ${
-                    curriculum.status === 'Active' ? 'bg-green-500' :
-                    curriculum.status === 'Review' ? 'bg-amber-500' :
-                    curriculum.status === 'Draft' ? 'bg-blue-500' :
-                    'bg-gray-500'
-                  }`}></span>
-                  <span className="text-sm text-gray-600">{curriculum.status}</span>
-                </div>
-                <div className="mt-4 text-sm text-gray-600">
-                  <div className="flex justify-between">
-                    <span>Courses:</span>
-                    <span className="font-medium">{curriculum.courses}</span>
-                  </div>
-                  <div className="flex justify-between mt-1">
-                    <span>Last Updated:</span>
-                    <span className="font-medium">{curriculum.lastUpdated}</span>
-                  </div>
-                </div>
-                <button className="mt-4 w-full py-1.5 text-sm text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors">
-                  Manage
-                </button>
-              </div>
-            ))}
+    <div className="p-6 space-y-6">
+      {/* Jumlah Mahasiswa Aktif */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="bg-white rounded-xl shadow p-6">
+          <h3 className="text-gray-500 text-sm font-semibold">Jumlah Mahasiswa Aktif</h3>
+          <h1 className="text-4xl font-bold text-gray-800 mt-2">{activeStudents.toLocaleString()}</h1>
+          <div className="mt-4">
+            <Bar data={barData} options={barOptions} height={180} />
           </div>
-        </DashboardSection>
+        </div>
+
+        {/* Statistik */}
+        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {stats.map((stat, idx) => (
+            <div key={idx} className="bg-white p-4 rounded-lg shadow flex items-center gap-4">
+              <div className="p-3 bg-gray-100 rounded-full">{stat.icon}</div>
+              <div>
+                <p className="text-sm text-gray-600 font-medium">{stat.title}</p>
+                <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Tabel Mahasiswa */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+        <div className="bg-white p-6 rounded-xl shadow">
+          <h3 className="text-gray-800 font-semibold text-lg mb-4">Mahasiswa Dengan Portofolio Lengkap</h3>
+          <div className="overflow-auto">
+            <table className="w-full text-sm text-left text-gray-600">
+              <thead className="text-xs text-gray-500 uppercase bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-4 py-2">Nama Mahasiswa</th>
+                  <th scope="col" className="px-4 py-2">NIM</th>
+                  <th scope="col" className="px-4 py-2">Gmail</th>
+                  <th scope="col" className="px-4 py-2">Angkatan</th>
+                  <th scope="col" className="px-4 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student, index) => (
+                  <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                    <td className="px-4 py-2">{student.name}</td>
+                    <td className="px-4 py-2">{student.nim}</td>
+                    <td className="px-4 py-2">{student.email}</td>
+                    <td className="px-4 py-2">{student.major}</td>
+                    <td className="px-4 py-2">
+                      <span className="text-green-600 font-medium">{student.status}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="mt-4">
+            <button className="bg-cyan-600 text-white px-4 py-2 rounded-md text-sm hover:bg-cyan-700 transition">
+              Lihat Semua Portofolio Mahasiswa
+            </button>
+          </div>
+        </div>
       </motion.div>
     </div>
   );

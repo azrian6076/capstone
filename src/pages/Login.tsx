@@ -40,8 +40,8 @@ const Login: React.FC = () => {
 
   // Demo accounts for convenience
   const demoAccounts = [
-    { role: 'mahasiswa', email: 'mahasiswa@example.com', color: 'bg-blue-100 text-blue-800' },
-    { role: 'dosen', email: 'dosen@example.com', color: 'bg-green-100 text-green-800' },
+    { role: 'mahasiswa', email: 'student@example.com', color: 'bg-blue-100 text-blue-800' },
+    { role: 'dosen', email: 'lecturer@example.com', color: 'bg-green-100 text-green-800' },
     { role: 'program studi', email: 'prodi@example.com', color: 'bg-purple-100 text-purple-800' },
     { role: 'Industri', email: 'industri@example.com', color: 'bg-yellow-100 text-yellow-800' },
     { role: 'Admin', email: 'admin@example.com', color: 'bg-red-100 text-red-800' }

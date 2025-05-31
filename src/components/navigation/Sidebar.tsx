@@ -1,23 +1,31 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { 
-  GraduationCap, 
-  User, 
-  BookOpen, 
-  Briefcase, 
-  BarChart2, 
-  Settings, 
-  BookMarked, 
-  Calendar, 
-  Award, 
-  Users, 
-  Building2, 
-  FileText, 
+import {
+  GraduationCap,
+  User,
+  BookOpen,
+  Briefcase,
+  BarChart2,
+  Settings,
+  BookMarked,
+  Calendar,
+  Award,
+  Users,
+  Building2,
+  FileText,
   ClipboardCheck,
   HelpCircle,
-  LogOut
+  LogOut,
+  LayoutGrid,
+  Folder,
+  Trophy,
+  CheckCircle,
+  MessageCircle,
+  Phone
 } from 'lucide-react';
+
+
 
 interface NavItemProps {
   to: string;
@@ -45,29 +53,29 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const location = useLocation();
-  const { logout } = useAuth();
-  const { user } = useAuth();
+  const { logout, user } = useAuth();
   
   const getNavItems = () => {
     switch (role) {
       case 'student':
         return [
           { to: '/student', icon: <BarChart2 size={20} />, label: 'Dashboard' },
-          { to: '/student/portfolio', icon: <FileText size={20} />, label: 'activity' },
-          { to: '/student/courses', icon: <BookOpen size={20} />, label: 'project' },
-          { to: '/student/assignments', icon: <ClipboardCheck size={20} />, label: 'sertifikasi' },
-           { to: '/student/profile', icon: <ClipboardCheck size={20} />, label: 'profile' },
-
+          { to: '/student/activity', icon: <FileText size={20} />, label: 'activity' },
+          { to: '/student/project', icon: <BookOpen size={20} />, label: 'project' }, // Diperbaiki
+          { to: '/student/certification', icon: <ClipboardCheck size={20} />, label: 'sertifikasi' },
+          { to: '/student/profile', icon: <ClipboardCheck size={20} />, label: 'profile' },
         ];
       case 'lecturer':
         return [
-          { to: '/lecturer', icon: <BarChart2 size={20} />, label: 'Dashboard' },
-          { to: '/lecturer/courses', icon: <BookOpen size={20} />, label: 'Courses' },
-          { to: '/lecturer/students', icon: <Users size={20} />, label: 'Students' },
-          { to: '/lecturer/assessments', icon: <ClipboardCheck size={20} />, label: 'Assessments' },
-          { to: '/lecturer/schedule', icon: <Calendar size={20} />, label: 'Schedule' },
-          { to: '/lecturer/profile', icon: <User size={20} />, label: 'Profile' },
+          { to: '/lecturer', icon: <LayoutGrid size={20} />, label: 'Dashboard' },
+          { to: '/lecturer/mahasiswa-bimbingan', icon: <BarChart2 size={20} />, label: 'Mahasiswa Bimbingan' },
+          { to: '/lecturer/rekomendasi-aktif', icon: <Folder size={20} />, label: 'Rekomendasi Aktif' },
+          { to: '/lecturer/dashboard2', icon: <Trophy size={20} />, label: 'Dashboard Overview' },
+          { to: '/lecturer/dashboard3', icon: <CheckCircle size={20} />, label: 'Dashboard Overview' },
+          { to: '/lecturer/chats', icon: <MessageCircle size={20} />, label: 'Chats' },
+          { to: '/lecturer/calls', icon: <Phone size={20} />, label: 'Calls' },
         ];
+
       case 'prodi':
         return [
           { to: '/prodi', icon: <BarChart2 size={20} />, label: 'Dashboard' },
@@ -101,7 +109,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   
   return (
     <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
-      {/* Logo and Title */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center gap-2">
           <GraduationCap size={24} className="text-teal-600" />
@@ -109,8 +116,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
         </div>
         <div className="text-sm text-gray-500 mt-1">{role.charAt(0).toUpperCase() + role.slice(1)} Portal</div>
       </div>
-      
-      {/* User Info */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center gap-3">
           <img
@@ -124,8 +129,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
           </div>
         </div>
       </div>
-      
-      {/* Navigation */}
       <nav className="flex-1 p-4 overflow-y-auto">
         <div className="space-y-1">
           {getNavItems().map((item) => (
@@ -139,8 +142,6 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
           ))}
         </div>
       </nav>
-      
-      {/* Footer */}
       <div className="p-4 border-t border-gray-200">
         <div className="space-y-1">
           <NavItem to="/help" icon={<HelpCircle size={20} />} label="Help & Support" />

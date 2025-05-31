@@ -9,13 +9,13 @@ const StudentDashboard: React.FC = () => {
       </h1>
 
       {/* Paragraf */}
-      <p className="text-black-700 underline mb-2">
+      <p className="text-black-700">
         Sistem E-Portofolio Mahasiswa ini adalah platform digital yang memfasilitasi mahasiswa dalam mendokumentasikan dan mengelola seluruh pencapaian akademik maupun non-akademik mereka.
       </p>
-      <p className="text-black-700 underline mb-2">
+      <p className="text-black-700">
         Dengan sistem ini, mahasiswa dapat menyimpan berbagai bukti karya seperti sertifikat, proyek, pengalaman organisasi, dan lainnya dalam satu tempat yang mudah diakses.
       </p>
-      <p className="text-black-700 underline mb-6">
+      <p className="text-black-700">
         Melalui sistem ini, setiap mahasiswa dapat membangun kredibilitas dan profesionalisme secara lebih terstruktur, transparan, dan siap disajikan kepada dosen, fakultas, maupun industri saat diperlukan.
       </p>
 
